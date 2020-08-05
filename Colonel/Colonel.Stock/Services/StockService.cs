@@ -24,6 +24,6 @@ namespace Colonel.Stock.Services
             _stock.Find(stock => true).ToList();
 
         public Stock GetStockByProductId(string productId) =>
-            _stock.Find<Stock>(x => x.Id == productId).FirstOrDefault();
+            _stock.Find<Stock>(x => x.ProductId == productId).FirstOrDefault();
     }
 }

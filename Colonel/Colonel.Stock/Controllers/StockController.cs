@@ -19,12 +19,17 @@ namespace Colonel.Stock.Controllers
         }
 
         [HttpGet]
+        [Route("stockbyproductid")]
+        public ActionResult<Stock> GetProductStockCount(string productId) =>
+           _stockService.GetStockByProductId(productId);
+
+
+        [HttpGet]
+        [Route("allstocks")]
         public ActionResult<List<Stock>> Get() =>
          _stockService.GetAllStock();
 
-        [HttpGet]
-        public ActionResult<Stock> GetProductStockCount(string productId) =>
-            _stockService.GetStockByProductId(productId);
+
 
     }
 }
