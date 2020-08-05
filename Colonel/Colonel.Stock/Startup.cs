@@ -29,10 +29,10 @@ namespace Colonel.Stock
             services.Configure<StockDatabaseSettings>(
                 Configuration.GetSection(nameof(StockDatabaseSettings)));
 
-            services.AddSingleton<IStockDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<StockDatabaseSettings>>().Value);
+            services.AddSingleton<IStockDatabaseSettings>(x =>
+                x.GetRequiredService<IOptions<StockDatabaseSettings>>().Value);
 
-            services.AddSingleton<StockService>();
+            services.AddSingleton<IStockService, StockService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

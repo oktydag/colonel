@@ -11,16 +11,16 @@ namespace Colonel.Stock.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly StockService _stockService;
+        private readonly IStockService _stockService;
 
-        public StockController(StockService stockService)
+        public StockController(IStockService stockService)
         {
             _stockService = stockService;
         }
 
         [HttpGet]
         public ActionResult<List<Stock>> Get() =>
-         _stockService.Get();
+         _stockService.GetAllStock();
 
     }
 }

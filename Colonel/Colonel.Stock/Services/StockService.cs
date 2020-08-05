@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Colonel.Stock.Services
 {
-    public class StockService
+    public class StockService : IStockService
     {
         private readonly IMongoCollection<Stock> _stock;
 
@@ -20,10 +20,10 @@ namespace Colonel.Stock.Services
         }
 
 
-        public List<Stock> Get() =>
-            _stock.Find(book => true).ToList();
+        public List<Stock> GetAllStock() =>
+            _stock.Find(stock => true).ToList();
 
-        public Stock Get(string id) =>
-            _stock.Find<Stock>(book => book.Id == id).FirstOrDefault();
+        public Stock GetStockByProductId(string productId) =>
+            _stock.Find<Stock>(x => x.Id == productId).FirstOrDefault();
     }
 }
