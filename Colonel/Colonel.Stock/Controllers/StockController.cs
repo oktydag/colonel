@@ -22,5 +22,9 @@ namespace Colonel.Stock.Controllers
         public ActionResult<List<Stock>> Get() =>
          _stockService.GetAllStock();
 
+        [HttpGet]
+        public ActionResult<Stock> GetProductStockCount(string productId) =>
+            _stockService.GetStockByProductId(productId);
+
     }
 }
