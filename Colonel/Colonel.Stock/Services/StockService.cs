@@ -23,7 +23,7 @@ namespace Colonel.Stock.Services
         public List<Stock> GetAllStock() =>
             _stock.Find(stock => true).ToList();
 
-        public Stock GetStockByProductId(string productId) =>
+        public Stock GetStockByProductId(int productId) =>
             _stock.Find<Stock>(x => x.ProductId == productId).FirstOrDefault();
     }
 }

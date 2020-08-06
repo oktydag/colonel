@@ -4,7 +4,7 @@ namespace Colonel.Price.Services
 {
     public interface IPriceServices
     {
-        Price GetPriceByProductId(string productId);
+        Price GetPriceByProductId(int productId);
         List<Price> GetAllPrices();
 
     }

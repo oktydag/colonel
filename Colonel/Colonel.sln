@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Stock", "Colonel.Stock\Colonel.Stock.csproj", "{DA69340A-96F2-4D4A-8FEC-B009DC792A92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.Price", "Colonel.Price\Colonel.Price.csproj", "{EE4B3B0B-C94A-490E-9B3B-581FF0DEC19C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Price", "Colonel.Price\Colonel.Price.csproj", "{EE4B3B0B-C94A-490E-9B3B-581FF0DEC19C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.Product", "Colonel.Product\Colonel.Product.csproj", "{54FEB86D-A748-4F79-9FED-D1FFA894E802}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EE4B3B0B-C94A-490E-9B3B-581FF0DEC19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE4B3B0B-C94A-490E-9B3B-581FF0DEC19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE4B3B0B-C94A-490E-9B3B-581FF0DEC19C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54FEB86D-A748-4F79-9FED-D1FFA894E802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54FEB86D-A748-4F79-9FED-D1FFA894E802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54FEB86D-A748-4F79-9FED-D1FFA894E802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54FEB86D-A748-4F79-9FED-D1FFA894E802}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

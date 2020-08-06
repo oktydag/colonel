@@ -20,7 +20,7 @@ namespace Colonel.Price.Controllers
 
         [HttpGet]
         [Route("pricebyproductid")]
-        public ActionResult<Price> GetProductPrice(string productId) =>
+        public ActionResult<Price> GetProductPrice(int productId) =>
             _priceServices.GetPriceByProductId(productId);
 
         [HttpGet]

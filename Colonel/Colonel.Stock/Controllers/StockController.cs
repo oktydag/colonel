@@ -20,7 +20,7 @@ namespace Colonel.Stock.Controllers
 
         [HttpGet]
         [Route("stockbyproductid")]
-        public ActionResult<Stock> GetProductStockCount(string productId) =>
+        public ActionResult<Stock> GetProductStockCount(int productId) =>
            _stockService.GetStockByProductId(productId);
 
 

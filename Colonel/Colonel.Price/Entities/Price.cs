@@ -8,7 +8,7 @@ namespace Colonel.Price
     public class Price : MongoBaseModel
     {
         [BsonElement("ProductId")]
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
 
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal Value { get; set; }

@@ -24,7 +24,7 @@ namespace Colonel.Price.Services
         public List<Price> GetAllPrices() =>
             _price.Find(price => true).ToList();
 
-        public Price GetPriceByProductId(string productId) =>
+        public Price GetPriceByProductId(int productId) =>
             _price.Find<Price>(x => x.ProductId == productId).FirstOrDefault();
     }
 }

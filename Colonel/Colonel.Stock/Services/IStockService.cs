@@ -4,7 +4,7 @@ namespace Colonel.Stock.Services
 {
     public interface IStockService
     {
-        Stock GetStockByProductId(string productId);
+        Stock GetStockByProductId(int productId);
 
         List<Stock> GetAllStock();
 
