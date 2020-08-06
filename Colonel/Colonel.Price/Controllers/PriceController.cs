@@ -20,8 +20,14 @@ namespace Colonel.Price.Controllers
 
         [HttpGet]
         [Route("pricebyproductid")]
-        public ActionResult<Price> GetProductPrice(int productId) =>
-            _priceServices.GetPriceByProductId(productId);
+        public ActionResult<Price> GetProductPrice(int productId)
+        {
+            var price = _priceServices.GetPriceByProductId(productId);
+            
+            if(price == null) return NotFound($"The Price whose Product ID is equal to {productId} cannot be found.");
+            return price;
+        }
+           
 
         [HttpGet]
         [Route("allprices")]

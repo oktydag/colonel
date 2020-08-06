@@ -20,9 +20,13 @@ namespace Colonel.Stock.Controllers
 
         [HttpGet]
         [Route("stockbyproductid")]
-        public ActionResult<Stock> GetProductStockCount(int productId) =>
-           _stockService.GetStockByProductId(productId);
+        public ActionResult<Stock> GetProductStockCount(int productId) {
+            var stock = _stockService.GetStockByProductId(productId);
 
+            if(stock == null) return NotFound($"The Stock whose Product ID is equal to {productId} cannot be found.");
+            return stock;
+
+        }
 
         [HttpGet]
         [Route("allstocks")]

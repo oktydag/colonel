@@ -20,7 +20,11 @@ namespace Colonel.Product.Services
         public List<Product> GetAllProducts() =>
             _product.Find(product => true).ToList();
 
-        public Product GetProductById(int productId) =>
-            _product.Find<Product>(x => x.ProductId == productId).FirstOrDefault();
+        public Product GetProductById(int productId)
+        {
+            var product = _product.Find<Product>(x => x.ProductId == productId).FirstOrDefault();
+
+            return product;
+        }
     }
 }

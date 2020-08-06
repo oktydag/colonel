@@ -21,8 +21,13 @@ namespace Colonel.Product.Controllers
 
         [HttpGet]
         [Route("productbyid")]
-        public ActionResult<Product> GetProductStockCount(int productId) =>
-           _productService.GetProductById(productId);
+        public ActionResult<Product> GetProductById(int productId) {
+            var product = _productService.GetProductById(productId);
+
+            if (product == null) return NotFound($"The Product whose id is equal to {productId} cannot be found.");
+            return product;
+        }
+           
 
 
         [HttpGet]
