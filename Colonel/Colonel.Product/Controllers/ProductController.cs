@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colonel.Product.Models;
 using Colonel.Product.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,10 +22,12 @@ namespace Colonel.Product.Controllers
 
         [HttpGet]
         [Route("productbyid")]
-        public ActionResult<Product> GetProductById(int productId) {
-            var product = _productService.GetProductById(productId);
+        public ActionResult<Product> GetProductById(ProductRequestModel productRequestModel) {
 
-            if (product == null) return NotFound($"The Product whose id is equal to {productId} cannot be found.");
+            //TODO : model is valid kontrolü
+            var product = _productService.GetProductById(productRequestModel.ProductId);
+
+            if (product == null) return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} cannot be found.");
             return product;
         }
            

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Colonel.Price.Models;
 using Colonel.Price.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,11 +18,13 @@ namespace Colonel.Price.Controllers
 
         [HttpGet]
         [Route("pricebyproductid")]
-        public ActionResult<Price> GetProductPrice(int productId)
+        public ActionResult<Price> GetProductPrice(PriceRequestModel priceRequestModel)
         {
-            var price = _priceServices.GetPriceByProductId(productId);
+            //TODO : model is valid kontrolü
+
+            var price = _priceServices.GetPriceByProductId(priceRequestModel.ProductId);
             
-            if(price == null) return NotFound($"The Price whose Product ID is equal to {productId} cannot be found.");
+            if(price == null) return NotFound($"The Price whose Product ID is equal to {priceRequestModel.ProductId} cannot be found.");
             return price;
         }
            
