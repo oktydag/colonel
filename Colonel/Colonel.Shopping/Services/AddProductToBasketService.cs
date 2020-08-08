@@ -1,5 +1,7 @@
-﻿using Colonel.Shopping.Models.Price;
+﻿using Colonel.Shopping.Models;
+using Colonel.Shopping.Models.Price;
 using Colonel.Shopping.Models.Product;
+using Colonel.Shopping.Models.Stock;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -8,29 +10,33 @@ namespace Colonel.Shopping.Services
 {
     public class AddProductToBasketService : IAddProductToBasketService
     {
-        public bool CheckProductHasStock(PriceRequestModel priceRequestModel)
+        public StockResponseModel CheckProductHasStock(StockRequestModel stockRequestModel)
         {
-            //try
-            //{
-            //    var client = new RestClient { BaseUrl = new Uri("http://localhost:58843/") };
-            //    var request = new RestRequest("api/v1/product/productbyid", Method.GET);
+            try
+            {
+                var client = new RestClient { BaseUrl = new Uri("http://localhost:58843/") };
+                var request = new RestRequest("api/v1/stock/stockbyproductid", Method.GET);
 
-            //    string requestModelAsJson = JsonConvert.SerializeObject(priceRequestModel, Formatting.Indented);
-            //    request.AddParameter("application/json", requestModelAsJson, ParameterType.RequestBody);
+                string requestModelAsJson = JsonConvert.SerializeObject(stockRequestModel, Formatting.Indented);
+                request.AddParameter("application/json", requestModelAsJson, ParameterType.RequestBody);
 
-            //    var response = client.Execute<PriceResponseModel>(request);
-            //}
-            //catch (Exception ex)
-            //{
+                var response = client.Execute<StockResponseModel>(request);
 
-            //    throw;
-            //}
+                if (response.Data == null) return null; // TODO : 
+
+                return response.Data;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ;
+            }
 
 
-            return true;
         }
 
-        public bool CheckProductOnSale(ProductRequestModel productRequestModel)
+        public ProductResponseModel CheckProductOnSale(ProductRequestModel productRequestModel)
         {
             try
             {
@@ -43,10 +49,12 @@ namespace Colonel.Shopping.Services
 
                 request.RequestFormat = DataFormat.Json;
                 request.AddJsonBody(productRequestModel);
-                var response = client.Execute<ProductResponseModel>(request);
+                var response = client.Execute<Models.ProductResponseModel>(request);
 
 
-                return true;
+                //TODO : kontrol
+                return response.Data;
+
             }
             catch (Exception ex)
             {
@@ -55,7 +63,6 @@ namespace Colonel.Shopping.Services
             }
 
 
-            return true;
         }
 
         public decimal GetProductPriceByDate(int productId, DateTime orderDate)

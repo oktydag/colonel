@@ -1,5 +1,7 @@
-﻿using Colonel.Shopping.Models.Price;
+﻿using Colonel.Shopping.Models;
+using Colonel.Shopping.Models.Price;
 using Colonel.Shopping.Models.Product;
+using Colonel.Shopping.Models.Stock;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,8 @@ namespace Colonel.Shopping.Services
 {
     public interface IAddProductToBasketService
     {
-        bool CheckProductOnSale(ProductRequestModel productId);
-        bool CheckProductHasStock(PriceRequestModel productId);
+        ProductResponseModel CheckProductOnSale(ProductRequestModel productRequestModel);
+        StockResponseModel CheckProductHasStock( StockRequestModel stockRequestModel);
         decimal GetProductPriceByDate(int productId, DateTime orderDate);
     }
 }

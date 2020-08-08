@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Colonel.Shopping.Models.Price
 {
-    public class ProductResponseModel
+    public class PriceResponseModel
     {
         public int ProductId { get; set; }
 
