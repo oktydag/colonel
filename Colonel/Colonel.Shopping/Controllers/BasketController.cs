@@ -11,40 +11,36 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colonel.Shopping.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/basket")]
     [ApiController]
     public class BasketController : ControllerBase
     {
-        private readonly IBasketService _addProductToBasketService;
-        public BasketController(IBasketService addProductToBasketService)
+        private readonly IProductService _productService;
+        private readonly IPriceService _priceService;
+        private readonly IStockService _stockService;
+
+        public BasketController(IProductService productService, IPriceService priceService, IStockService stockService)
         {
-            _addProductToBasketService = addProductToBasketService;
+            _productService = productService;
+            _priceService = priceService;
+            _stockService = stockService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("addproducttobasket")]
-        public ActionResult<bool> AddProductToBasket(BasketItems basketItems)
+        public ActionResult<bool> AddProductToBasket([FromBody] BasketLine basketItems)
         {
-            //TODO : Prod uct Service OnSale Control
-            var product = _addProductToBasketService.CheckProductOnSale(new ProductRequestModel() { ProductId = basketItems.ProductId });
-
-            if(product == null) return false;
-            if (!product.OnSale) return false; //exception
-
-            // TODO: Stock Service Quantity
-            var stock = _addProductToBasketService.CheckProductHasStock(new StockRequestModel() { ProductId = basketItems.ProductId });
-
-            if (stock == null) return false;
-            if (stock.Value < 1 && stock.Value < basketItems.Quantity) return false; //exception
+            var product = _productService.GetProduct(new ProductRequestModel() { ProductId = basketItems.ProductId });
+            if(product == null) return false; //Custom Exception
+            
+            var stock = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = basketItems.Quantity });
+            if (stock == null) return false; //Custom Exception
 
 
-            // TODO: Price Service - Price as Date
+            //TODO: datetime provider should implemented. 
+            var priceOfProduct = _priceService.GetProductPrice(new PriceRequestModel()
+            { ProductId = basketItems.ProductId, RequestDate = DateTime.UtcNow });
 
-            var priceOfProduct = _addProductToBasketService.GetProductPriceByDate(new PriceRequestModel()
-            { ProductId = basketItems.ProductId});
-
-            if (priceOfProduct == null) return false;
-            // tarih aralığı kontrolü
 
 
             return true;

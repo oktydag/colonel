@@ -23,10 +23,11 @@ namespace Colonel.Price.Controllers
         {
             //TODO : model is valid kontrolü
 
-            var price = _priceServices.GetPriceByProductId(priceRequestModel.ProductId);
+            var price = _priceServices.GetPriceByProductId(priceRequestModel);
             
             if(price == null)
                 return NotFound($"The Price whose Product ID is equal to {priceRequestModel.ProductId} cannot be found.");
+
             return price;
         }
            

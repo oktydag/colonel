@@ -21,12 +21,17 @@ namespace Colonel.Stock.Controllers
 
         [HttpGet("")]
         [Produces("application/json")]
-        public ActionResult<Stock> GetProductStockCount([FromQuery] StockRequestModel stockRequestModel) {
+        public ActionResult<int> GetProductStockCount([FromQuery] StockRequestModel stockRequestModel) {
             var stock = _stockService.GetStockByProductId(stockRequestModel.ProductId);
 
             if(stock == null)
                 return NotFound($"The Stock whose Product ID is equal to {stockRequestModel.ProductId} cannot be found.");
-            return stock;
+
+            const int MIN_STOCK_VALUE = 1;
+            if (stock.Value < MIN_STOCK_VALUE || stock.Value < stockRequestModel.Quantity)
+                return NotFound($"The Stock whose Product ID is equal to {stockRequestModel.ProductId} has no available stock !");
+
+            return Ok(stock);
 
         }
 

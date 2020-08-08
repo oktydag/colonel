@@ -24,7 +24,12 @@ namespace Colonel.Price.Services
         public List<Price> GetAllPrices() =>
             _price.Find(price => true).ToList();
 
-        public Price GetPriceByProductId(int productId) =>
-            _price.Find<Price>(x => x.ProductId == productId).FirstOrDefault();
+        public Price GetPriceByProductId(PriceRequestModel priceRequestModel)
+        {
+            return _price.Find<Price>(x =>
+            x.ProductId == priceRequestModel.ProductId &&
+            x.ReleaseDate <= priceRequestModel.RequestDate &&
+            x.ExpireDate > priceRequestModel.RequestDate).FirstOrDefault();
+        }
     }
 }

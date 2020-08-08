@@ -30,6 +30,10 @@ namespace Colonel.Product.Controllers
 
             if (product == null)
                 return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} cannot be found.");
+
+            if (!product.OnSale)
+                return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} is not on sale !");
+
             return product;
         }
            
