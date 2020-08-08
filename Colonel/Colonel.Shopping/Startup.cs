@@ -21,23 +21,29 @@ namespace Colonel.Shopping
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-           
-            services.Configure<BasketItemsDatabaseSettings>(
-              Configuration.GetSection(nameof(BasketItemsDatabaseSettings)));
-
-            services.AddSingleton<IBasketItemsDatabaseSettings>(x =>
-                x.GetRequiredService<IOptions<BasketItemsDatabaseSettings>>().Value);
-
             services.Configure<ProjectBaseUrlSettings>(
-              Configuration.GetSection(nameof(ProjectBaseUrlSettings)));
+             Configuration.GetSection(nameof(ProjectBaseUrlSettings)));
 
             services.AddSingleton<IProjectBaseUrlSettings>(x =>
            x.GetRequiredService<IOptions<ProjectBaseUrlSettings>>().Value);
 
+            services.Configure<BasketLineDatabaseSettings>(
+              Configuration.GetSection(nameof(BasketLineDatabaseSettings)));
+
+            services.AddSingleton<IBasketLineDatabaseSettings>(x =>
+                x.GetRequiredService<IOptions<BasketLineDatabaseSettings>>().Value);
+
+            services.Configure<BasketDatabaseSettings>(
+                Configuration.GetSection(nameof(BasketDatabaseSettings)));
+
+            services.AddSingleton<IBasketDatabaseSettings>(x =>
+                x.GetRequiredService<IOptions<BasketDatabaseSettings>>().Value);
+
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<IStockService, StockService>();
             services.AddSingleton<IPriceService, PriceService>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IBasketService, BasketService>();
 
             services.AddSwaggerGen(c =>
             {

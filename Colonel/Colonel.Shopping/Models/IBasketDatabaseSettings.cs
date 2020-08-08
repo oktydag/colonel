@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Colonel.Shopping.Models
 {
-    public interface IBasketItemsDatabaseSettings
+    public interface IBasketDatabaseSettings
     {
-        string BasketItemsCollectionName { get; set; }
+        string BasketCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

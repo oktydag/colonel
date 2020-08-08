@@ -4,7 +4,6 @@ using System;
 
 namespace Colonel.Shopping.Entities
 {
-    // TODO : BasketItem mı olmalı ? 
     public class BasketLine : MongoBaseModel
     {
         [BsonElement("ProductId")]
@@ -14,7 +13,7 @@ namespace Colonel.Shopping.Entities
         public int Quantity { get; set; }
 
         [BsonElement("StockId")]
-        public int StockId { get; set; }
+        public string StockId { get; set; }
 
         [BsonElement("GiftNote")]
         public string GiftNote { get; set; }

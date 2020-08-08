@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Price", "Colonel.Pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Product", "Colonel.Product\Colonel.Product.csproj", "{54FEB86D-A748-4F79-9FED-D1FFA894E802}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.Shopping", "Colonel.Shopping\Colonel.Shopping.csproj", "{0CB6D281-2BC8-4FC8-B0AF-B2132FF99FDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Shopping", "Colonel.Shopping\Colonel.Shopping.csproj", "{0CB6D281-2BC8-4FC8-B0AF-B2132FF99FDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.User", "Colonel.User\Colonel.User.csproj", "{2B765D64-0826-49A0-AD50-A67865A74389}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0CB6D281-2BC8-4FC8-B0AF-B2132FF99FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CB6D281-2BC8-4FC8-B0AF-B2132FF99FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CB6D281-2BC8-4FC8-B0AF-B2132FF99FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B765D64-0826-49A0-AD50-A67865A74389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B765D64-0826-49A0-AD50-A67865A74389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B765D64-0826-49A0-AD50-A67865A74389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B765D64-0826-49A0-AD50-A67865A74389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

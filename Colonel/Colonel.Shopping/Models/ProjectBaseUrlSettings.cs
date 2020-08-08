@@ -11,5 +11,8 @@ namespace Colonel.Shopping.Models
         public string Stock { get; set; }
         public string Product { get; set; }
         public string Shopping { get; set; }
+        public string User { get; set; }
+
+
     }
 }

@@ -9,9 +9,11 @@ namespace Colonel.Shopping.Models
     {
         public int ProductId { get; set; }
 
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
 
         public int Quantity { get; set; }
+
+        public string GiftNote { get; set; }
 
         public DateTime? CreatedDate { get; set; }
 

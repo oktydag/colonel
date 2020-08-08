@@ -1,12 +1,11 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using Colonel.Shopping.Models;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Colonel.Shopping.Entities
 {
-    public class Basket
+    public class Basket : MongoBaseModel
     {
         [BsonElement("UserId")]
         public int UserId { get; set; }

@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace Colonel.Shopping.Models
 {
-   public interface IProjectBaseUrlSettings
+    public interface IProjectBaseUrlSettings
     {
-         string Price { get; set; }
-         string Stock { get; set; }
-         string Product { get; set; }
-         string Shopping { get; set; }
+        string Price { get; set; }
+        string Stock { get; set; }
+        string Product { get; set; }
+        string Shopping { get; set; }
+        string User { get; set; }
+
     }
 }
