@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colonel.Price.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/prices")]
     [ApiController]
     public class PriceController : ControllerBase
     {
@@ -17,20 +17,22 @@ namespace Colonel.Price.Controllers
         }
 
         [HttpGet]
-        [Route("pricebyproductid")]
-        public ActionResult<Price> GetProductPrice(PriceRequestModel priceRequestModel)
+        [Route("")]
+        [Produces("application/json")]
+        public ActionResult<Price> GetProductPrice([FromQuery] PriceRequestModel priceRequestModel)
         {
             //TODO : model is valid kontrolü
 
             var price = _priceServices.GetPriceByProductId(priceRequestModel.ProductId);
             
-            if(price == null) return NotFound($"The Price whose Product ID is equal to {priceRequestModel.ProductId} cannot be found.");
+            if(price == null)
+                return NotFound($"The Price whose Product ID is equal to {priceRequestModel.ProductId} cannot be found.");
             return price;
         }
            
 
         [HttpGet]
-        [Route("allprices")]
+        [Route("List")]
         public ActionResult<List<Price>> Get() =>
          _priceServices.GetAllPrices();
 

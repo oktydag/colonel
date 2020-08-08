@@ -15,8 +15,8 @@ namespace Colonel.Shopping.Controllers
     [ApiController]
     public class BasketController : ControllerBase
     {
-        private readonly IAddProductToBasketService _addProductToBasketService;
-        public BasketController(IAddProductToBasketService addProductToBasketService)
+        private readonly IBasketService _addProductToBasketService;
+        public BasketController(IBasketService addProductToBasketService)
         {
             _addProductToBasketService = addProductToBasketService;
         }
@@ -39,7 +39,12 @@ namespace Colonel.Shopping.Controllers
 
 
             // TODO: Price Service - Price as Date
-            
+
+            var priceOfProduct = _addProductToBasketService.GetProductPriceByDate(new PriceRequestModel()
+            { ProductId = basketItems.ProductId});
+
+            if (priceOfProduct == null) return false;
+            // tarih aralığı kontrolü
 
 
             return true;

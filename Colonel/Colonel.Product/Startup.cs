@@ -34,6 +34,11 @@ namespace Colonel.Product
 
             services.AddSingleton<IProductService, ProductService>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Colonel.Product", Version = "v1" });
+
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -45,7 +50,14 @@ namespace Colonel.Product
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product Service");
+            });
+
             app.UseMvc();
+
+
         }
     }
 }

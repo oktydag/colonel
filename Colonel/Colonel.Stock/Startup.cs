@@ -34,6 +34,12 @@ namespace Colonel.Stock
 
             services.AddSingleton<IStockService, StockService>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Colonel.Stock", Version = "v1" });
+
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
         }
@@ -46,7 +52,14 @@ namespace Colonel.Stock
                 app.UseDeveloperExceptionPage();
             }
 
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stock Service");
+            });
+
             app.UseMvc();
+
         }
     }
 }

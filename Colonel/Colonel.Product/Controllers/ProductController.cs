@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colonel.Product.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/products")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -21,20 +21,23 @@ namespace Colonel.Product.Controllers
 
 
         [HttpGet]
-        [Route("productbyid")]
-        public ActionResult<Product> GetProductById(ProductRequestModel productRequestModel) {
+        [Route("{ProductId}")]
+        [Produces("application/json")]
+        public ActionResult<Product> GetProductById([FromRoute] ProductRequestModel productRequestModel) {
 
             //TODO : model is valid kontrolü
             var product = _productService.GetProductById(productRequestModel.ProductId);
 
-            if (product == null) return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} cannot be found.");
+            if (product == null)
+                return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} cannot be found.");
             return product;
         }
            
 
 
         [HttpGet]
-        [Route("allproducts")]
+        [Route("List")]
+        [Produces("application/json")]
         public ActionResult<List<Product>> Get() =>
          _productService.GetAllProducts();
     }

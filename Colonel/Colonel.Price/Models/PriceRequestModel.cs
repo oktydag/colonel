@@ -8,5 +8,6 @@ namespace Colonel.Price.Models
     public class PriceRequestModel
     {
         public int ProductId { get; set; }
+        public DateTime RequestDate { get; set; }
     }
 }

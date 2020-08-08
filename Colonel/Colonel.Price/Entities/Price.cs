@@ -19,11 +19,10 @@ namespace Colonel.Price
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime ExpireDate { get; set; }
 
+        [BsonElement("CampaignId")]
+        public int CampaignId { get; set; }
+
         [BsonElement("IsActive")]
         public bool IsActive { get; set; }
-
-
-
-   
     }
 }

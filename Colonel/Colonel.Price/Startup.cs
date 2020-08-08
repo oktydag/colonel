@@ -6,6 +6,7 @@ using Colonel.Price.Models;
 using Colonel.Price.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,26 +28,39 @@ namespace Colonel.Price
         public void ConfigureServices(IServiceCollection services)
         {
 
-              services.Configure<PriceDatabaseSettings>(
-                Configuration.GetSection(nameof(PriceDatabaseSettings)));
+            services.Configure<PriceDatabaseSettings>(
+              Configuration.GetSection(nameof(PriceDatabaseSettings)));
 
             services.AddSingleton<IPriceDatabaseSettings>(x =>
                 x.GetRequiredService<IOptions<PriceDatabaseSettings>>().Value);
 
             services.AddSingleton<IPriceServices, PriceServices>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-    }
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Colonel.Price", Version = "v1" });
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-    {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        app.UseMvc();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Price Service");
+            });
+
+            app.UseMvc();
+
+        }
     }
 }
-}
+

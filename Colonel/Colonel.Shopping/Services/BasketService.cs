@@ -8,13 +8,14 @@ using System;
 
 namespace Colonel.Shopping.Services
 {
-    public class AddProductToBasketService : IAddProductToBasketService
+    public class BasketService : IBasketService
     {
         public StockResponseModel CheckProductHasStock(StockRequestModel stockRequestModel)
         {
             try
             {
-                var client = new RestClient { BaseUrl = new Uri("http://localhost:58843/") };
+                //TODO : ip adressleri ? 
+                var client = new RestClient { BaseUrl = new Uri("http://localhost:XXXX/") };
                 var request = new RestRequest("api/v1/stock/stockbyproductid", Method.GET);
 
                 string requestModelAsJson = JsonConvert.SerializeObject(stockRequestModel, Formatting.Indented);
@@ -40,7 +41,7 @@ namespace Colonel.Shopping.Services
         {
             try
             {
-                var client = new RestClient { BaseUrl = new Uri("http://localhost:58843/") };
+                var client = new RestClient { BaseUrl = new Uri("http://localhost:XXXX/") };
                 var request = new RestRequest("api/v1/product/productbyid", Method.GET);
 
                 //request.AddHeader("Content-Type", "application/json");
@@ -65,9 +66,29 @@ namespace Colonel.Shopping.Services
 
         }
 
-        public decimal GetProductPriceByDate(int productId, DateTime orderDate)
+        public PriceResponseModel GetProductPriceByDate(PriceRequestModel priceRequestModel)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var client = new RestClient { BaseUrl = new Uri("http://localhost:XXXX/") };
+                var request = new RestRequest("api/v1/stock/stockbyproductid", Method.GET);
+
+                string requestModelAsJson = JsonConvert.SerializeObject(priceRequestModel, Formatting.Indented);
+                request.AddParameter("application/json", requestModelAsJson, ParameterType.RequestBody);
+
+                var response = client.Execute<PriceResponseModel>(request);
+
+                if (response.Data == null) return null; // TODO : 
+
+                return response.Data;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }

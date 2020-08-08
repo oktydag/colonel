@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Colonel.Shopping.Services
 {
-    public interface IAddProductToBasketService
+    public interface IBasketService
     {
         ProductResponseModel CheckProductOnSale(ProductRequestModel productRequestModel);
         StockResponseModel CheckProductHasStock( StockRequestModel stockRequestModel);
-        decimal GetProductPriceByDate(int productId, DateTime orderDate);
+        PriceResponseModel GetProductPriceByDate(PriceRequestModel priceRequestModel);
     }
 }
