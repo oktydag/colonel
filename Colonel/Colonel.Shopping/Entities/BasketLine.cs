@@ -10,16 +10,13 @@ namespace Colonel.Shopping.Entities
         [BsonElement("ProductId")]
         public int ProductId { get; set; }
 
-        [BsonElement("CustomerId")]
-        public int CustomerId { get; set; }
-
         [BsonElement("Quantity")]
         public int Quantity { get; set; }
 
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime? CreatedDate { get; set; }
+        [BsonElement("StockId")]
+        public int StockId { get; set; }
 
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime? UpdateDate { get; set; }
+        [BsonElement("GiftNote")]
+        public string GiftNote { get; set; }
     }
 }

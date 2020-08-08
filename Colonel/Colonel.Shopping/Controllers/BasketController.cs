@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colonel.Shopping.Entities;
+using Colonel.Shopping.Models;
 using Colonel.Shopping.Models.Price;
 using Colonel.Shopping.Models.Product;
 using Colonel.Shopping.Models.Stock;
@@ -28,7 +29,7 @@ namespace Colonel.Shopping.Controllers
 
         [HttpPost]
         [Route("addproducttobasket")]
-        public ActionResult<bool> AddProductToBasket([FromBody] BasketLine basketItems)
+        public ActionResult<bool> AddProductToBasket([FromBody] AddProductToBasketRequestModel basketItems)
         {
             var product = _productService.GetProduct(new ProductRequestModel() { ProductId = basketItems.ProductId });
             if(product == null) return false; //Custom Exception
