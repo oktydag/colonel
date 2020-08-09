@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Colonel.Stock.Models;
 using Colonel.Stock.Services;
@@ -12,17 +10,17 @@ namespace Colonel.Stock.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly IStockService _stockService;
+        private readonly IStockRepository _stockRepository;
 
-        public StockController(IStockService stockService)
+        public StockController(IStockRepository stockRepository)
         {
-            _stockService = stockService;
+            _stockRepository = stockRepository;
         }
 
         [HttpGet("")]
         [Produces("application/json")]
-        public async Task<ActionResult<int>> GetProductStockCount([FromQuery] StockRequestModel stockRequestModel) {
-            var stock = await _stockService.GetStockByProductId(stockRequestModel.ProductId);
+        public async Task<IActionResult> GetProductStockCount([FromQuery] StockRequestModel stockRequestModel) {
+            var stock = await _stockRepository.GetStockByProductId(stockRequestModel.ProductId);
 
             if(stock == null)
                 return NotFound($"The Stock whose Product ID is equal to {stockRequestModel.ProductId} cannot be found.");
@@ -36,7 +34,7 @@ namespace Colonel.Stock.Controllers
 
         [HttpGet("list")]
         public async Task<ActionResult<List<Stock>>> Get() =>
-         await _stockService.GetAllStock();
+         await _stockRepository.GetAllStock();
 
 
 

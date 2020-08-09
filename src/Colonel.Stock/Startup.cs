@@ -32,7 +32,7 @@ namespace Colonel.Stock
             services.AddSingleton<IStockDatabaseSettings>(x =>
                 x.GetRequiredService<IOptions<StockDatabaseSettings>>().Value);
 
-            services.AddSingleton<IStockService, StockService>();
+            services.AddSingleton<IStockRepository, StockRepository>();
 
             services.AddSwaggerGen(c =>
             {
