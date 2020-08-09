@@ -1,5 +1,7 @@
 ﻿using Colonel.Shopping.Entities;
 using Colonel.Shopping.Models;
+using Colonel.Shopping.Providers;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,32 +42,34 @@ namespace Colonel.Shopping.Services
             return true;
         }
 
-        public Basket AddBasket(Basket basket)
+        public Basket SaveBasket(Basket basket)
         {
             if (basket == null) return null;
-            _basket.InsertOne(basket);
+            //var filter = Builders<Basket>.Filter.Eq("_id", basket.Id);
+            //var update = Builders<Basket>.Update;
+
+            var filterBuilder = Builders<Basket>.Filter;
+            var filter = filterBuilder.Where(x => x.UserId == basket.UserId);
+            var updateBuilder = Builders<Basket>.Update;
+
+            var update = updateBuilder
+                .Set(f => f.BasketLines, basket.BasketLines)
+                .Set(f => f.UpdateDate, basket.UpdateDate)
+                .Set(f => f.UserId, basket.UserId)
+                .Set(f => f.IsActive, basket.IsActive)
+                .Set(f => f.IsOrdered, basket.IsOrdered)
+                .Set(f => f.CreatedDate, basket.CreatedDate
+                );
+
+            _basket.UpdateOne(filter, update, new UpdateOptions() { IsUpsert = true });
 
             return basket;
-          
         }
 
         public Basket GetUserBasket(int userId)
         {
-           return _basket.Find<Basket>(x => x.UserId == userId).FirstOrDefault();
+            return _basket.Find<Basket>(x => x.UserId == userId && x.IsActive == true && x.IsOrdered == false).FirstOrDefault();
         }
 
-       public bool IncreaseQuantityOfProductInBasket(int userId , int newQuantity)
-        {
-            var filter = Builders<Basket>.Filter.Eq("UserId", userId);
-
-
-            // TODO: update filter ? does not work correctly !
-            var update = Builders<Basket>.Update;
-            var quantityInBasketSetter = update.Set("BasketLines.$.Quantity", newQuantity);
-            _basket.UpdateOne(filter, quantityInBasketSetter);
-
-
-            return true;
-        }
     }
 }

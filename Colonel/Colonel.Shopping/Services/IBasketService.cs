@@ -10,7 +10,6 @@ namespace Colonel.Shopping.Services
         Basket GetUserBasket(int userId);
         BasketLine AddBasketLine(BasketLine basketLine);
 
-        Basket AddBasket(Basket basket);
-        bool IncreaseQuantityOfProductInBasket(int userId, int newQuantity);
+        Basket SaveBasket(Basket basket);
     }
 }

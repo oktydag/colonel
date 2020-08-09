@@ -10,6 +10,6 @@ namespace Colonel.Shopping.Models
     public abstract class MongoBaseModel
     {
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public ObjectId Id { get; set; }
     }
 }

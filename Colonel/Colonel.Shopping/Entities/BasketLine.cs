@@ -4,7 +4,7 @@ using System;
 
 namespace Colonel.Shopping.Entities
 {
-    public class BasketLine : MongoBaseModel
+    public class BasketLine 
     {
         [BsonElement("ProductId")]
         public int ProductId { get; set; }

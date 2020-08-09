@@ -13,6 +13,12 @@ namespace Colonel.Shopping.Entities
         [BsonElement("BasketLines")]
         public List<BasketLine> BasketLines { get; set; }
 
+        [BsonElement("IsActive")]
+        public bool IsActive { get; set; }
+
+        [BsonElement("IsOrdered")]
+        public bool IsOrdered { get; set; }
+
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime? CreatedDate { get; set; }
 

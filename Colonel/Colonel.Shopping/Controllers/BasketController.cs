@@ -39,29 +39,29 @@ namespace Colonel.Shopping.Controllers
         public ActionResult<bool> AddProductToBasket([FromBody] AddProductToBasketRequestModel basketItems)
         {
             var product = _productService.GetProduct(new ProductRequestModel() { ProductId = basketItems.ProductId });
-            if(product == null) return false; //Custom Exception
-            
-            var stock = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = basketItems.Quantity });
-            if (stock == null) return false; //Custom Exception
-
+            if(product == null) return false; //Custom Exception Onsale mi ?
+           
             var user = _userService.GetUser(new UserRequestModel() { UserId = basketItems.UserId });
-            if (user == null) return false; // Custom Exception
+            if (user == null) return false; // Custom Exception isactive exception
 
-            var priceOfProduct = _priceService.GetProductPrice(new PriceRequestModel()
+            var stockModelForRequestQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = basketItems.Quantity });
+            if (stockModelForRequestQuantity == null) return false;
+
+           var priceOfProduct = _priceService.GetProductPrice(new PriceRequestModel()
             { ProductId = basketItems.ProductId, RequestDate = DateTimeProvider.Instance.GetUtcNow() });
+
 
             var basketLine = new BasketLine()
             {
                 ProductId = basketItems.ProductId,
                 Quantity = basketItems.Quantity,
-                StockId = stock.Id,
+                StockId = stockModelForRequestQuantity.Id,
                 GiftNote = basketItems.GiftNote
             };
 
             var userBasket = _basketService.GetUserBasket(basketItems.UserId);
             if(userBasket == null)
             {
-                
                 List<BasketLine> basketLines = new List<BasketLine>();
                 basketLines.Add(basketLine);
 
@@ -69,33 +69,44 @@ namespace Colonel.Shopping.Controllers
                 {
                     UserId = basketItems.UserId,
                     CreatedDate = DateTime.UtcNow,
-                    BasketLines = basketLines
+                    BasketLines = basketLines,
+                    IsActive = true,
+                    IsOrdered = false,
+                    UpdateDate = DateTimeProvider.Instance.GetUtcNow()
+
                 };
 
-                //add basketLine
-                _basketService.AddBasketLine(basketLine);
                 //add basket
-                _basketService.AddBasket(basket);
+                _basketService.SaveBasket(basket);
             }
             else
             {
                 // If basket exist, check lines due to basketline is exist.
-                var userBasketLines = userBasket.BasketLines.Where(x => x.ProductId == basketItems.ProductId).ToList();
+                var addedBasketLine = userBasket.BasketLines.FirstOrDefault(x => x.ProductId == basketItems.ProductId);
+                if (addedBasketLine != null)
+                {
+                    var newQuantity = addedBasketLine.Quantity + basketItems.Quantity;
 
-                if(userBasketLines.Count == 0)
-                    _basketService.AddBasketLine(basketLine);
+                    var availableStockModelForNewQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = newQuantity });
+
+                    if (availableStockModelForNewQuantity == null)
+                          return false; //Custom Exception
+
+                    addedBasketLine.Quantity = newQuantity;
+                    addedBasketLine.GiftNote = basketItems.GiftNote;
+
+                }
                 else
                 {
-                    var newQuantity = userBasketLines.FirstOrDefault().Quantity + basketItems.Quantity;
-                    //_basketService.IncreaseQuantityOfProductInBasket(basketItems.UserId, newQuantity);
+                    userBasket.BasketLines.Add(basketLine);
 
-                    _basketService.AddBasketLine(basketLine);
                 }
+                _basketService.SaveBasket(userBasket);
+
             }
 
 
             // TODO: Send event as  NewAddToCartServiceWork.
-
 
             return true;
 
