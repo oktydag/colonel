@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Colonel.User.Models;
 using Colonel.User.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Colonel.User.Controllers
@@ -25,7 +21,6 @@ namespace Colonel.User.Controllers
         [Produces("application/json")]
         public async Task<ActionResult<User>> GetProductById([FromRoute] UserRequestModel userRequestModel)
         {
-
             //TODO : model is valid kontrolü
             var user = await _userService.GetUserById(userRequestModel.UserId);
 
