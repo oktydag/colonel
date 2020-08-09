@@ -1,4 +1,5 @@
-﻿using Colonel.Shopping.Models;
+﻿using Colonel.Shopping.Core;
+using Colonel.Shopping.Models;
 using Colonel.Shopping.Repositories;
 using Colonel.Shopping.Services;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,7 @@ namespace Colonel.Shopping
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IBasketRepository, BasketRepository>();
             services.AddSingleton<IBasketService, BasketService>();
+            services.AddSingleton<IEventPublisher, EventPublisher>();
 
             services.AddSwaggerGen(c =>
             {

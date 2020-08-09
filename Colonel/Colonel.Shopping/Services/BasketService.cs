@@ -11,6 +11,8 @@ using Colonel.Shopping.Models.User;
 using Colonel.Shopping.Providers;
 using Colonel.Shopping.Core.Exceptions;
 using Microsoft.Extensions.Logging;
+using Colonel.Shopping.Core;
+using Colonel.Shopping.Core.Events;
 
 namespace Colonel.Shopping.Services
 {
@@ -22,9 +24,11 @@ namespace Colonel.Shopping.Services
         private readonly IStockService _stockService;
         private readonly IUserService _userService;
         private readonly ILogger<BasketService> _logger;
+        private readonly IEventPublisher _eventPublisher;
 
 
-        public BasketService(IBasketRepository basketRepository, IProductService productService, IPriceService priceService, IStockService stockService, IUserService userService, ILogger<BasketService> logger)
+
+        public BasketService(IBasketRepository basketRepository, IProductService productService, IPriceService priceService, IStockService stockService, IUserService userService, ILogger<BasketService> logger, IEventPublisher eventPublisher)
         {
             _basketRepository = basketRepository;
             _productService = productService;
@@ -32,6 +36,7 @@ namespace Colonel.Shopping.Services
             _stockService = stockService;
             _userService = userService;
             _logger = logger;
+            _eventPublisher = eventPublisher;
         }
 
         public bool AddToBasket(AddProductToBasketRequestModel basketItems)
@@ -42,7 +47,7 @@ namespace Colonel.Shopping.Services
                 _logger.LogError("Product is not available ! Check Logs. ");
                 throw new ProductIsNotAvailableException("Product is not available ! Check Logs. ");
             }
-               
+
             var userBasket = _basketRepository.GetUserBasket(basketItems.UserId);
             if (userBasket == null)
             {
@@ -56,7 +61,12 @@ namespace Colonel.Shopping.Services
             _basketRepository.SaveBasket(userBasket);
 
 
-            // TODO: Send event as  NewAddToCartServiceWork.
+            _eventPublisher.Publish(new BasketCreatedEvent()
+            {
+                BasketId = userBasket.Id.ToString(),
+                BasketLines = userBasket.BasketLines,
+                UserId = userBasket.UserId
+            });
 
             return true;
 
@@ -109,9 +119,9 @@ namespace Colonel.Shopping.Services
 
         public Basket CreateNewBasket(AddProductToBasketRequestModel basketItems, ProductAvailability productAvailability)
         {
-            
+
             List<BasketLine> basketLines = new List<BasketLine>();
-            basketLines.Add(CreateNewBasketLine(basketItems,productAvailability));
+            basketLines.Add(CreateNewBasketLine(basketItems, productAvailability));
 
             var basket = new Basket()
             {

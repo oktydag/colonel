@@ -32,7 +32,6 @@ namespace Colonel.Stock.Controllers
                 return NotFound($"The Stock whose Product ID is equal to {stockRequestModel.ProductId} has no available stock !");
 
             return Ok(stock);
-
         }
 
         [HttpGet("list")]
