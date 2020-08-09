@@ -17,9 +17,6 @@ namespace Colonel.User
         [BsonElement("PhoneNumber")]
         public long PhoneNumber { get; set; }
 
-        [BsonElement("Age")]
-        public int Age { get; set; }
-
         [BsonElement("IsActive")]
         public bool IsActive { get; set; }
     }
