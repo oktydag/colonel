@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Colonel.Shopping.Core.Events
 {
-    public class BasketCreatedEvent: IEvent
+    public class ProductAddedToBasketEvent: IEvent
     {
         public string BasketId { get; set; }
         public List<BasketLine> BasketLines { get; set; }

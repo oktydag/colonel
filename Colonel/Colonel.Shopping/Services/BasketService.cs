@@ -61,7 +61,7 @@ namespace Colonel.Shopping.Services
             _basketRepository.SaveBasket(userBasket);
 
 
-            _eventPublisher.Publish(new BasketCreatedEvent()
+            _eventPublisher.Publish(new ProductAddedToBasketEvent()
             {
                 BasketId = userBasket.Id.ToString(),
                 BasketLines = userBasket.BasketLines,
