@@ -3,16 +3,12 @@ using Colonel.Shopping.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Colonel.Shopping.Entities;
 using Colonel.Shopping.Models;
 using Colonel.Shopping.Models.Price;
 using Colonel.Shopping.Models.Product;
 using Colonel.Shopping.Models.Stock;
 using Colonel.Shopping.Models.User;
 using Colonel.Shopping.Providers;
-using Colonel.Shopping.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Colonel.Shopping.Services
 {
@@ -35,6 +31,31 @@ namespace Colonel.Shopping.Services
             _basketService = basketService;
         }
 
+        public bool AddToBasket(AddProductToBasketRequestModel basketItems)
+        {
+            var productAvailability = CheckProductIsAvailable(basketItems);
+            if (!productAvailability.IsAvailable)
+                throw new Exception("Product is not available");
+
+            var userBasket = _basketService.GetUserBasket(basketItems.UserId);
+            if (userBasket == null)
+            {
+                userBasket = CreateNewBasket(basketItems, productAvailability);
+            }
+            else
+            {
+                UpdateBasket(basketItems, productAvailability, userBasket);
+            }
+
+            _basketService.SaveBasket(userBasket);
+
+
+            // TODO: Send event as  NewAddToCartServiceWork.
+
+            return true;
+
+        }
+
         public Basket SaveBasket(Basket basket)
         {
             return _basketRepository.SaveBasket(basket);
@@ -45,79 +66,84 @@ namespace Colonel.Shopping.Services
             return _basketRepository.GetUserBasket(userId);
         }
 
-        public bool AddToBasket(AddProductToBasketRequestModel basketItems)
+        public ProductAvailability CheckProductIsAvailable(AddProductToBasketRequestModel basketItems)
         {
             var product = _productService.GetProduct(new ProductRequestModel() { ProductId = basketItems.ProductId });
-            if (product == null) return false; //Custom Exception Onsale mi ?
+            if (product == null)
+                return ProductAvailability.NotAvailable;
 
             var user = _userService.GetUser(new UserRequestModel() { UserId = basketItems.UserId });
-            if (user == null) return false; // Custom Exception isactive exception
+            if (user == null)
+                return ProductAvailability.NotAvailable;
 
             var stockModelForRequestQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = basketItems.Quantity });
-            if (stockModelForRequestQuantity == null) return false;
+            if (stockModelForRequestQuantity == null)
+                return ProductAvailability.NotAvailable;
 
             var priceOfProduct = _priceService.GetProductPrice(new PriceRequestModel()
             { ProductId = basketItems.ProductId, RequestDate = DateTimeProvider.Instance.GetUtcNow() });
+            if (priceOfProduct == null)
+                return ProductAvailability.NotAvailable;
 
+            return new ProductAvailability(stockModelForRequestQuantity.Id, priceOfProduct.Value, basketItems.ProductId, true);
+        }
+
+        public BasketLine CreateNewBasketLine(AddProductToBasketRequestModel basketItems, ProductAvailability productAvailability)
+        {
             var basketLine = new BasketLine()
             {
                 ProductId = basketItems.ProductId,
                 Quantity = basketItems.Quantity,
-                StockId = stockModelForRequestQuantity.Id,
+                StockId = productAvailability.StockId,
                 GiftNote = basketItems.GiftNote
             };
 
-            var userBasket = _basketService.GetUserBasket(basketItems.UserId);
-            if (userBasket == null)
+            return basketLine;
+        }
+
+        public Basket CreateNewBasket(AddProductToBasketRequestModel basketItems, ProductAvailability productAvailability)
+        {
+            
+            List<BasketLine> basketLines = new List<BasketLine>();
+            basketLines.Add(CreateNewBasketLine(basketItems,productAvailability));
+
+            var basket = new Basket()
             {
-                List<BasketLine> basketLines = new List<BasketLine>();
-                basketLines.Add(basketLine);
+                UserId = basketItems.UserId,
+                CreatedDate = DateTime.UtcNow,
+                BasketLines = basketLines,
+                IsActive = true,
+                IsOrdered = false,
+                UpdateDate = DateTimeProvider.Instance.GetUtcNow()
 
-                var basket = new Basket()
-                {
-                    UserId = basketItems.UserId,
-                    CreatedDate = DateTime.UtcNow,
-                    BasketLines = basketLines,
-                    IsActive = true,
-                    IsOrdered = false,
-                    UpdateDate = DateTimeProvider.Instance.GetUtcNow()
+            };
 
-                };
-                //add basket
-                _basketService.SaveBasket(basket);
+            return basket;
+        }
+
+
+        public Basket UpdateBasket(AddProductToBasketRequestModel basketItems, ProductAvailability productAvailability, Basket userBasket)
+        {
+            var addedBasketLine = userBasket.BasketLines.FirstOrDefault(x => x.ProductId == basketItems.ProductId);
+            if (addedBasketLine != null)
+            {
+                var newQuantity = addedBasketLine.Quantity + basketItems.Quantity;
+
+                var availableStockModelForNewQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = newQuantity });
+
+                if (availableStockModelForNewQuantity == null)
+                    throw new Exception("Not sufficient exception");
+
+                addedBasketLine.Quantity = newQuantity;
+                addedBasketLine.GiftNote = basketItems.GiftNote;
+
             }
             else
             {
-                // If basket exist, check lines due to basketline is exist.
-                var addedBasketLine = userBasket.BasketLines.FirstOrDefault(x => x.ProductId == basketItems.ProductId);
-                if (addedBasketLine != null)
-                {
-                    var newQuantity = addedBasketLine.Quantity + basketItems.Quantity;
-
-                    var availableStockModelForNewQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = newQuantity });
-
-                    if (availableStockModelForNewQuantity == null)
-                        return false; //Custom Exception
-
-                    addedBasketLine.Quantity = newQuantity;
-                    addedBasketLine.GiftNote = basketItems.GiftNote;
-
-                }
-                else
-                {
-                    userBasket.BasketLines.Add(basketLine);
-
-                }
-                _basketService.SaveBasket(userBasket);
-
+                userBasket.BasketLines.Add(CreateNewBasketLine(basketItems, productAvailability));
             }
 
-
-            // TODO: Send event as  NewAddToCartServiceWork.
-
-            return true;
-
-
+            return userBasket;
         }
 
     }
