@@ -7,8 +7,7 @@ namespace Colonel.Product.Services
 {
     public interface IProductService
     {
-        Product GetProductById(int productId);
-
-        List<Product> GetAllProducts();
+        Task<Product> GetProductById(int productId);
+        Task<List<Product>> GetAllProducts();
     }
 }

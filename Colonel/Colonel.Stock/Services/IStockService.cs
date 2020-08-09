@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Colonel.Stock.Services
 {
     public interface IStockService
     {
-        Stock GetStockByProductId(int productId);
-
-        List<Stock> GetAllStock();
-
+        Task<Stock> GetStockByProductId(int productId);
+        Task<List<Stock>> GetAllStock();
     }
 }

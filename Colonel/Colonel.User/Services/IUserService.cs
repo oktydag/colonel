@@ -7,7 +7,7 @@ namespace Colonel.User.Services
 {
     public interface IUserService
     {
-        User GetUserById(int UserId);
-        List<User> GetAllUsers();
+        Task<User> GetUserById(int UserId);
+        Task<List<User>> GetAllUsers();
     }
 }

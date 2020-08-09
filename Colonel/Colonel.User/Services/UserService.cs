@@ -17,14 +17,14 @@ namespace Colonel.User.Services
 
             _user = database.GetCollection<User>(settings.UserCollectionName);
         }
-        public User GetUserById(int userId)
+        public async Task<User> GetUserById(int userId)
         {
-            var user = _user.Find<User>(x => x.UserId == userId).FirstOrDefault();
+            var user = await _user.Find<User>(x => x.UserId == userId).FirstOrDefaultAsync();
 
             return user;
         }
 
-        public List<User> GetAllUsers() =>
-            _user.Find(product => true).ToList();
+        public async Task<List<User>> GetAllUsers() =>
+            await _user.Find(product => true).ToListAsync();
     }
 }

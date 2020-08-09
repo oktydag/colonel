@@ -23,10 +23,10 @@ namespace Colonel.Product.Controllers
         [HttpGet]
         [Route("{ProductId}")]
         [Produces("application/json")]
-        public ActionResult<Product> GetProductById([FromRoute] ProductRequestModel productRequestModel) {
+        public async Task<ActionResult<Product>> GetProductById([FromRoute] ProductRequestModel productRequestModel) {
 
             //TODO : model is valid kontrolü
-            var product = _productService.GetProductById(productRequestModel.ProductId);
+            var product = await _productService.GetProductById(productRequestModel.ProductId);
 
             if (product == null)
                 return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} cannot be found.");
@@ -36,13 +36,12 @@ namespace Colonel.Product.Controllers
 
             return product;
         }
-           
 
 
         [HttpGet]
         [Route("List")]
         [Produces("application/json")]
-        public ActionResult<List<Product>> Get() =>
-         _productService.GetAllProducts();
+        public async Task<ActionResult<List<Product>>> Get() =>
+         await _productService.GetAllProducts();
     }
 }

@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Colonel.Product.Services
 {
@@ -17,14 +18,15 @@ namespace Colonel.Product.Services
             _product = database.GetCollection<Product>(settings.ProductCollectionName);
         }
 
-        public List<Product> GetAllProducts() =>
-            _product.Find(product => true).ToList();
+        public async Task<List<Product>> GetAllProducts() =>
+           await _product.Find(product => true).ToListAsync();
 
-        public Product GetProductById(int productId)
+        public async Task<Product> GetProductById(int productId)
         {
-            var product = _product.Find<Product>(x => x.ProductId == productId).FirstOrDefault();
+            var product = await _product.Find<Product>(x => x.ProductId == productId).FirstOrDefaultAsync();
 
             return product;
         }
+
     }
 }

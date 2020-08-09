@@ -21,15 +21,15 @@ namespace Colonel.Price.Services
         }
 
 
-        public List<Price> GetAllPrices() =>
-            _price.Find(price => true).ToList();
+        public async Task<List<Price>> GetAllPrices() =>
+            await _price.Find(price => true).ToListAsync();
 
-        public Price GetPriceByProductId(PriceRequestModel priceRequestModel)
+        public async Task<Price> GetPriceByProductId(PriceRequestModel priceRequestModel)
         {
-            return _price.Find<Price>(x =>
+            return  await _price.Find<Price>(x =>
             x.ProductId == priceRequestModel.ProductId &&
             x.ReleaseDate <= priceRequestModel.RequestDate &&
-            x.ExpireDate > priceRequestModel.RequestDate).FirstOrDefault();
+            x.ExpireDate > priceRequestModel.RequestDate).FirstOrDefaultAsync();
         }
     }
 }

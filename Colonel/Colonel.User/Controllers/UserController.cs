@@ -23,11 +23,11 @@ namespace Colonel.User.Controllers
         [HttpGet]
         [Route("{UserId}")]
         [Produces("application/json")]
-        public ActionResult<User> GetProductById([FromRoute] UserRequestModel userRequestModel)
+        public async Task<ActionResult<User>> GetProductById([FromRoute] UserRequestModel userRequestModel)
         {
 
             //TODO : model is valid kontrolü
-            var user = _userService.GetUserById(userRequestModel.UserId);
+            var user = await _userService.GetUserById(userRequestModel.UserId);
 
             if (user == null)
                 return NotFound($"The User whose id is equal to {userRequestModel.UserId} cannot be found.");

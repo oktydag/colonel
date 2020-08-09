@@ -21,8 +21,8 @@ namespace Colonel.Stock.Controllers
 
         [HttpGet("")]
         [Produces("application/json")]
-        public ActionResult<int> GetProductStockCount([FromQuery] StockRequestModel stockRequestModel) {
-            var stock = _stockService.GetStockByProductId(stockRequestModel.ProductId);
+        public async Task<ActionResult<int>> GetProductStockCount([FromQuery] StockRequestModel stockRequestModel) {
+            var stock = await _stockService.GetStockByProductId(stockRequestModel.ProductId);
 
             if(stock == null)
                 return NotFound($"The Stock whose Product ID is equal to {stockRequestModel.ProductId} cannot be found.");
@@ -36,8 +36,8 @@ namespace Colonel.Stock.Controllers
         }
 
         [HttpGet("list")]
-        public ActionResult<List<Stock>> Get() =>
-         _stockService.GetAllStock();
+        public async Task<ActionResult<List<Stock>>> Get() =>
+         await _stockService.GetAllStock();
 
 
 

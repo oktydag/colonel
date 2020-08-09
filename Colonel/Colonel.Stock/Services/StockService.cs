@@ -20,10 +20,10 @@ namespace Colonel.Stock.Services
         }
 
 
-        public List<Stock> GetAllStock() =>
-            _stock.Find(stock => true).ToList();
+        public async Task<List<Stock>> GetAllStock() =>
+            await _stock.Find(stock => true).ToListAsync();
 
-        public Stock GetStockByProductId(int productId) =>
-            _stock.Find<Stock>(x => x.ProductId == productId).FirstOrDefault();
+        public async Task<Stock> GetStockByProductId(int productId) =>
+           await _stock.Find<Stock>(x => x.ProductId == productId).FirstOrDefaultAsync();
     }
 }
