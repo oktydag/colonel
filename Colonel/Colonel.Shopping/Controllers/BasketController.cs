@@ -24,7 +24,7 @@ namespace Colonel.Shopping.Controllers
         private readonly IUserService _userService;
         private readonly IBasketService _basketService;
 
-        public BasketController(IProductService productService, IPriceService priceService, 
+        public BasketController(IProductService productService, IPriceService priceService,
             IStockService stockService, IUserService userService, IBasketService basketService)
         {
             _productService = productService;
@@ -35,81 +35,20 @@ namespace Colonel.Shopping.Controllers
         }
 
         [HttpPost]
-        [Route("addproducttobasket")]
-        public ActionResult<bool> AddProductToBasket([FromBody] AddProductToBasketRequestModel basketItems)
+        [Route("")]
+        public ActionResult AddToBasket([FromBody] AddProductToBasketRequestModel basketItems)
         {
-            var product = _productService.GetProduct(new ProductRequestModel() { ProductId = basketItems.ProductId });
-            if(product == null) return false; //Custom Exception Onsale mi ?
-           
-            var user = _userService.GetUser(new UserRequestModel() { UserId = basketItems.UserId });
-            if (user == null) return false; // Custom Exception isactive exception
-
-            var stockModelForRequestQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = basketItems.Quantity });
-            if (stockModelForRequestQuantity == null) return false;
-
-           var priceOfProduct = _priceService.GetProductPrice(new PriceRequestModel()
-            { ProductId = basketItems.ProductId, RequestDate = DateTimeProvider.Instance.GetUtcNow() });
-
-
-            var basketLine = new BasketLine()
+            try
             {
-                ProductId = basketItems.ProductId,
-                Quantity = basketItems.Quantity,
-                StockId = stockModelForRequestQuantity.Id,
-                GiftNote = basketItems.GiftNote
-            };
+                var addToBasketResult = _basketService.AddToBasket(basketItems);
 
-            var userBasket = _basketService.GetUserBasket(basketItems.UserId);
-            if(userBasket == null)
-            {
-                List<BasketLine> basketLines = new List<BasketLine>();
-                basketLines.Add(basketLine);
-
-                var basket = new Basket()
-                {
-                    UserId = basketItems.UserId,
-                    CreatedDate = DateTime.UtcNow,
-                    BasketLines = basketLines,
-                    IsActive = true,
-                    IsOrdered = false,
-                    UpdateDate = DateTimeProvider.Instance.GetUtcNow()
-
-                };
-
-                //add basket
-                _basketService.SaveBasket(basket);
-            }
-            else
-            {
-                // If basket exist, check lines due to basketline is exist.
-                var addedBasketLine = userBasket.BasketLines.FirstOrDefault(x => x.ProductId == basketItems.ProductId);
-                if (addedBasketLine != null)
-                {
-                    var newQuantity = addedBasketLine.Quantity + basketItems.Quantity;
-
-                    var availableStockModelForNewQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = newQuantity });
-
-                    if (availableStockModelForNewQuantity == null)
-                          return false; //Custom Exception
-
-                    addedBasketLine.Quantity = newQuantity;
-                    addedBasketLine.GiftNote = basketItems.GiftNote;
-
-                }
-                else
-                {
-                    userBasket.BasketLines.Add(basketLine);
-
-                }
-                _basketService.SaveBasket(userBasket);
+                return Ok();
 
             }
-
-
-            // TODO: Send event as  NewAddToCartServiceWork.
-
-            return true;
-
+            catch (Exception)
+            {
+                return StatusCode(406, "error");
+            }
         }
     }
 }

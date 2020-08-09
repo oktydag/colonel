@@ -1,4 +1,5 @@
 ﻿using Colonel.Shopping.Models;
+using Colonel.Shopping.Repositories;
 using Colonel.Shopping.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,12 +28,6 @@ namespace Colonel.Shopping
             services.AddSingleton<IProjectBaseUrlSettings>(x =>
            x.GetRequiredService<IOptions<ProjectBaseUrlSettings>>().Value);
 
-            services.Configure<BasketLineDatabaseSettings>(
-              Configuration.GetSection(nameof(BasketLineDatabaseSettings)));
-
-            services.AddSingleton<IBasketLineDatabaseSettings>(x =>
-                x.GetRequiredService<IOptions<BasketLineDatabaseSettings>>().Value);
-
             services.Configure<BasketDatabaseSettings>(
                 Configuration.GetSection(nameof(BasketDatabaseSettings)));
 
@@ -43,6 +38,7 @@ namespace Colonel.Shopping
             services.AddSingleton<IStockService, StockService>();
             services.AddSingleton<IPriceService, PriceService>();
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IBasketRepository, BasketRepository>();
             services.AddSingleton<IBasketService, BasketService>();
 
             services.AddSwaggerGen(c =>
