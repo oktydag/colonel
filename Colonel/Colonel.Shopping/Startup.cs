@@ -47,6 +47,7 @@ namespace Colonel.Shopping
 
             });
 
+            services.AddLogging();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
