@@ -8,6 +8,7 @@ using Colonel.Shopping.Models.Price;
 using Colonel.Shopping.Models.Product;
 using Colonel.Shopping.Models.Stock;
 using Colonel.Shopping.Models.User;
+using Colonel.Shopping.Providers;
 using Colonel.Shopping.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,9 +47,8 @@ namespace Colonel.Shopping.Controllers
             var user = _userService.GetUser(new UserRequestModel() { UserId = basketItems.UserId });
             if (user == null) return false; // Custom Exception
 
-            //TODO: datetime provider should implemented. 
             var priceOfProduct = _priceService.GetProductPrice(new PriceRequestModel()
-            { ProductId = basketItems.ProductId, RequestDate = DateTime.UtcNow });
+            { ProductId = basketItems.ProductId, RequestDate = DateTimeProvider.Instance.GetUtcNow() });
 
             var basketLine = new BasketLine()
             {
