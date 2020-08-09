@@ -9,6 +9,7 @@ using Colonel.Shopping.Models.Product;
 using Colonel.Shopping.Models.Stock;
 using Colonel.Shopping.Models.User;
 using Colonel.Shopping.Providers;
+using Colonel.Shopping.Core.Exceptions;
 
 namespace Colonel.Shopping.Services
 {
@@ -19,25 +20,23 @@ namespace Colonel.Shopping.Services
         private readonly IPriceService _priceService;
         private readonly IStockService _stockService;
         private readonly IUserService _userService;
-        private readonly IBasketService _basketService;
 
-        public BasketService(IBasketRepository basketRepository, IProductService productService, IPriceService priceService, IStockService stockService, IUserService userService, IBasketService basketService)
+        public BasketService(IBasketRepository basketRepository, IProductService productService, IPriceService priceService, IStockService stockService, IUserService userService)
         {
             _basketRepository = basketRepository;
             _productService = productService;
             _priceService = priceService;
             _stockService = stockService;
             _userService = userService;
-            _basketService = basketService;
         }
 
         public bool AddToBasket(AddProductToBasketRequestModel basketItems)
         {
             var productAvailability = CheckProductIsAvailable(basketItems);
             if (!productAvailability.IsAvailable)
-                throw new Exception("Product is not available");
+                throw new ProductIsNotAvailableException("Product is not available ! Check Logs. ");
 
-            var userBasket = _basketService.GetUserBasket(basketItems.UserId);
+            var userBasket = _basketRepository.GetUserBasket(basketItems.UserId);
             if (userBasket == null)
             {
                 userBasket = CreateNewBasket(basketItems, productAvailability);
@@ -47,7 +46,7 @@ namespace Colonel.Shopping.Services
                 UpdateBasket(basketItems, productAvailability, userBasket);
             }
 
-            _basketService.SaveBasket(userBasket);
+            _basketRepository.SaveBasket(userBasket);
 
 
             // TODO: Send event as  NewAddToCartServiceWork.
@@ -132,7 +131,7 @@ namespace Colonel.Shopping.Services
                 var availableStockModelForNewQuantity = _stockService.HasAvailableStock(new StockRequestModel() { ProductId = basketItems.ProductId, Quantity = newQuantity });
 
                 if (availableStockModelForNewQuantity == null)
-                    throw new Exception("Not sufficient exception");
+                    throw new ProductIsNotAvailableException("Stock is not sufficient");
 
                 addedBasketLine.Quantity = newQuantity;
                 addedBasketLine.GiftNote = basketItems.GiftNote;
