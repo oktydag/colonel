@@ -1,0 +1,67 @@
+version: "1"
+
+services:
+    mongo:
+        image: mongo:4.1
+        container_name: colonel
+        network: 
+            - back-tier
+        ports:
+            - "10500:27017"
+    
+    user:
+        build:
+          context: ./Colonel.User
+        depends_on:
+            - "mongo"
+        networks:
+            - back-tier
+        ports:
+            - "5005:5005"
+
+    product:
+        build:
+            context: ./Colonel.Product
+        depends_on:
+            - "mongo"
+        networks:
+            - back-tier
+        ports:
+            - "5003:5003"            
+
+    price:
+        build:
+          context: ./Colonel.Price
+        depends_on:
+            - "mongo"
+        networks:
+            - back-tier
+        ports:
+            - "5001:5001"
+            
+    stock:
+        build:
+           context: ./Colonel.Stock
+        depends_on:
+           - "mongo"
+        networks:
+           - back-tier
+        ports:
+            - "5002:5002"
+
+    shopping:
+        build:
+            context: ./Colonel.Shopping
+        depends_on:
+            - "mongo"
+            - "product"
+            - "price"
+            - "user"
+            - "stock"
+        networks:
+            - back-tier
+        ports:
+            - "5004:5004"
+        
+networks:
+  back-tier:
