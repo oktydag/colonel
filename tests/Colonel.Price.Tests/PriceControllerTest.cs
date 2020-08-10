@@ -22,7 +22,7 @@ namespace Colonel.Price.Tests
         public async Task When_Price_Is_Given_It_Should_Be_Return_Ok()
         {
             Price price = new Price() { Id = "10101", ProductId = 5, Value = 10, CampaignId = 10,
-                IsActive = true, ReleaseDate = new DateTime(2020,1,1), ExpireDate = new DateTime(2020, 12, 12)
+                IsActive = true
             };
 
             var priceRepositoryMock = new Mock<IPriceRepository>();
@@ -34,6 +34,7 @@ namespace Colonel.Price.Tests
             var actionResult = await priceController.GetProductPrice(priceRequestModel);
             actionResult.Should().BeOfType<OkObjectResult>();
 
+            //TODO : mock returns null ?
         }
 
 
