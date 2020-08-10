@@ -19,7 +19,7 @@ namespace Colonel.User.Controllers
         [HttpGet]
         [Route("{UserId}")]
         [Produces("application/json")]
-        public async Task<ActionResult<User>> GetProductById([FromRoute] UserRequestModel userRequestModel)
+        public async Task<IActionResult> GetProductById([FromRoute] UserRequestModel userRequestModel)
         {
             //TODO : model is valid kontrolü
             var user = await _userRepository.GetUserById(userRequestModel.UserId);
@@ -30,7 +30,7 @@ namespace Colonel.User.Controllers
             if (!user.IsActive)
                 return NotFound($"The User whose id is equal to {userRequestModel.UserId} is not active !");
 
-            return user;
+            return Ok(user);
         }
     }
 }
