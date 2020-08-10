@@ -20,7 +20,7 @@ namespace Colonel.Price.Controllers
         [HttpGet]
         [Route("")]
         [Produces("application/json")]
-        public async Task<IActionResult> GetProductPrice([FromQuery] PriceRequestModel priceRequestModel)
+        public async iTask<IActionResult> GetProductPrice([FromQuery] PriceRequestModel priceRequestModel)
         {
             var price = await _priceRepository.GetPriceByProductId(priceRequestModel);
             

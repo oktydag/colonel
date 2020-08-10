@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Stocks.Tests", "tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.Price.Tests", "tests\Colonel.Price.Tests\Colonel.Price.Tests.csproj", "{B0BC0339-6E45-4FC9-8CE5-2B0DE6ACACAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.User.Tests", "tests\Colonel.User.Tests\Colonel.User.Tests\Colonel.User.Tests.csproj", "{39C20AD1-2C38-47F9-B216-2ACB1F8A9C2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.User.Tests", "tests\Colonel.User.Tests\Colonel.User.Tests.csproj", "{39C20AD1-2C38-47F9-B216-2ACB1F8A9C2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Colonel.User\Colonel.User.csproj" />
+    <ProjectReference Include="..\..\src\Colonel.User\Colonel.User.csproj" />
   </ItemGroup>
 
 </Project>
