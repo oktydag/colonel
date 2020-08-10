@@ -34,7 +34,7 @@ namespace Colonel.Price
             services.AddSingleton<IPriceDatabaseSettings>(x =>
                 x.GetRequiredService<IOptions<PriceDatabaseSettings>>().Value);
 
-            services.AddSingleton<IPriceServices, PriceServices>();
+            services.AddSingleton<IPriceRepository, PriceRepository>();
 
             services.AddSwaggerGen(c =>
             {

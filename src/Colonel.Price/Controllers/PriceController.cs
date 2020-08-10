@@ -10,11 +10,11 @@ namespace Colonel.Price.Controllers
     [ApiController]
     public class PriceController : ControllerBase
     {
-        private readonly IPriceServices _priceServices;
+        private readonly IPriceRepository _priceRepository;
 
-        public PriceController(IPriceServices priceServices)
+        public PriceController(IPriceRepository priceRepository)
         {
-            _priceServices = priceServices;
+            _priceRepository = priceRepository;
         }
 
         [HttpGet]
@@ -24,7 +24,7 @@ namespace Colonel.Price.Controllers
         {
             //TODO : model is valid kontrolü
 
-            var price = await _priceServices.GetPriceByProductId(priceRequestModel);
+            var price = await _priceRepository.GetPriceByProductId(priceRequestModel);
             
             if(price == null)
                 return NotFound($"The Price whose Product ID is equal to {priceRequestModel.ProductId} cannot be found.");
@@ -36,7 +36,7 @@ namespace Colonel.Price.Controllers
         [HttpGet]
         [Route("List")]
         public async Task<ActionResult<List<Price>>> Get() =>
-         await _priceServices.GetAllPrices();
+         await _priceRepository.GetAllPrices();
 
 
     }

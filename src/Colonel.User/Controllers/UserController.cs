@@ -9,11 +9,11 @@ namespace Colonel.User.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(IUserService userService)
+        public UserController(IUserRepository userRepository)
         {
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace Colonel.User.Controllers
         public async Task<ActionResult<User>> GetProductById([FromRoute] UserRequestModel userRequestModel)
         {
             //TODO : model is valid kontrolü
-            var user = await _userService.GetUserById(userRequestModel.UserId);
+            var user = await _userRepository.GetUserById(userRequestModel.UserId);
 
             if (user == null)
                 return NotFound($"The User whose id is equal to {userRequestModel.UserId} cannot be found.");

@@ -12,21 +12,19 @@ namespace Colonel.Product.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IProductRepository _productRepository;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductRepository productRepository)
         {
-            _productService = productService;
+            _productRepository = productRepository;
         }
-
 
         [HttpGet]
         [Route("{ProductId}")]
         [Produces("application/json")]
         public async Task<ActionResult<Product>> GetProductById([FromRoute] ProductRequestModel productRequestModel) {
 
-            //TODO : model is valid kontrolü
-            var product = await _productService.GetProductById(productRequestModel.ProductId);
+            var product = await _productRepository.GetProductById(productRequestModel.ProductId);
 
             if (product == null)
                 return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} cannot be found.");
@@ -42,6 +40,6 @@ namespace Colonel.Product.Controllers
         [Route("List")]
         [Produces("application/json")]
         public async Task<ActionResult<List<Product>>> Get() =>
-         await _productService.GetAllProducts();
+         await _productRepository.GetAllProducts();
     }
 }

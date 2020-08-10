@@ -32,7 +32,7 @@ namespace Colonel.Product
             services.AddSingleton<IProductDatabaseSettings>(x =>
                 x.GetRequiredService<IOptions<ProductDatabaseSettings>>().Value);
 
-            services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
 
             services.AddSwaggerGen(c =>
             {

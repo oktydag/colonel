@@ -32,7 +32,7 @@ namespace Colonel.User
             services.AddSingleton<IUserDatabaseSettings>(x =>
                 x.GetRequiredService<IOptions<UserDatabaseSettings>>().Value);
 
-            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddSwaggerGen(c =>
             {
