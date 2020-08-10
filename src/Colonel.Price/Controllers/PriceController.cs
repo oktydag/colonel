@@ -20,16 +20,14 @@ namespace Colonel.Price.Controllers
         [HttpGet]
         [Route("")]
         [Produces("application/json")]
-        public async Task<ActionResult<Price>> GetProductPrice([FromQuery] PriceRequestModel priceRequestModel)
+        public async Task<IActionResult> GetProductPrice([FromQuery] PriceRequestModel priceRequestModel)
         {
-            //TODO : model is valid kontrolü
-
             var price = await _priceRepository.GetPriceByProductId(priceRequestModel);
             
             if(price == null)
                 return NotFound($"The Price whose Product ID is equal to {priceRequestModel.ProductId} cannot be found.");
 
-            return price;
+            return Ok(price);
         }
            
 
