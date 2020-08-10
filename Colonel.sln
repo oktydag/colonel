@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colonel.User.Tests", "tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.Product.Tests", "tests\Colonel.Product.Tests\Colonel.Product.Tests.csproj", "{7E271924-8484-4E79-9B5D-53B3BE61CC98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colonel.Shopping.Tests", "tests\Colonel.Shopping.Tests\Colonel.Shopping.Tests.csproj", "{686AEDE9-5D25-42C5-9DA9-B980ED56C8FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{7E271924-8484-4E79-9B5D-53B3BE61CC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E271924-8484-4E79-9B5D-53B3BE61CC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E271924-8484-4E79-9B5D-53B3BE61CC98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686AEDE9-5D25-42C5-9DA9-B980ED56C8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686AEDE9-5D25-42C5-9DA9-B980ED56C8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686AEDE9-5D25-42C5-9DA9-B980ED56C8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686AEDE9-5D25-42C5-9DA9-B980ED56C8FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{B0BC0339-6E45-4FC9-8CE5-2B0DE6ACACAA} = {9DCC3450-2F49-47EA-9997-EF1FD903765A}
 		{39C20AD1-2C38-47F9-B216-2ACB1F8A9C2C} = {9DCC3450-2F49-47EA-9997-EF1FD903765A}
 		{7E271924-8484-4E79-9B5D-53B3BE61CC98} = {9DCC3450-2F49-47EA-9997-EF1FD903765A}
+		{686AEDE9-5D25-42C5-9DA9-B980ED56C8FA} = {9DCC3450-2F49-47EA-9997-EF1FD903765A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3E9740E6-5B79-4529-853C-1B1ABA0F15FE}
