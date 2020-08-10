@@ -13,7 +13,7 @@ services:
         depends_on:
             - "mongo"
         ports:
-            - "5005:5005"
+            - "5005:80"
 
     product:
         build:
@@ -21,7 +21,7 @@ services:
         depends_on:
             - "mongo"
         ports:
-            - "5003:5003"            
+            - "5003:80"            
 
     price:
         build:
@@ -29,7 +29,7 @@ services:
         depends_on:
             - "mongo"
         ports:
-            - "5001:5001"
+            - "5001:80"
             
     stock:
         build:
@@ -37,7 +37,7 @@ services:
         depends_on:
            - "mongo"
         ports:
-            - "5002:5002"
+            - "5002:80"
 
     shopping:
         build:
@@ -49,5 +49,5 @@ services:
             - "user"
             - "stock"
         ports:
-            - "5004:5004"
+            - "5004:80"
         
