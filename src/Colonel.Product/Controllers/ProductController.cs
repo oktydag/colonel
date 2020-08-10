@@ -22,7 +22,7 @@ namespace Colonel.Product.Controllers
         [HttpGet]
         [Route("{ProductId}")]
         [Produces("application/json")]
-        public async Task<ActionResult<Product>> GetProductById([FromRoute] ProductRequestModel productRequestModel) {
+        public async Task<IActionResult> GetProductById([FromRoute] ProductRequestModel productRequestModel) {
 
             var product = await _productRepository.GetProductById(productRequestModel.ProductId);
 
@@ -32,7 +32,7 @@ namespace Colonel.Product.Controllers
             if (!product.OnSale)
                 return NotFound($"The Product whose id is equal to {productRequestModel.ProductId} is not on sale !");
 
-            return product;
+            return Ok(product);
         }
 
 
