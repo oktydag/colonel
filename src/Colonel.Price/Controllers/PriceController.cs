@@ -33,8 +33,12 @@ namespace Colonel.Price.Controllers
 
         [HttpGet]
         [Route("List")]
-        public async Task<ActionResult<List<Price>>> Get() =>
-         await _priceRepository.GetAllPrices();
+        public async Task<ActionResult<List<Price>>> Get()
+        {
+            _priceRepository.InitializeData();
+           return  await _priceRepository.GetAllPrices();
+        }
+         
 
 
     }
