@@ -43,7 +43,7 @@ namespace Colonel.User
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IUserRepository _userRepository)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +55,7 @@ namespace Colonel.User
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "User Service");
             });
 
+            Task.Factory.StartNew(() => _userRepository.InitializeData());
             app.UseMvc();
         }
     }

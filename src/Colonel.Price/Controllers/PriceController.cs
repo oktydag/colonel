@@ -35,7 +35,6 @@ namespace Colonel.Price.Controllers
         [Route("List")]
         public async Task<ActionResult<List<Price>>> Get()
         {
-            _priceRepository.InitializeData();
            return  await _priceRepository.GetAllPrices();
         }
          

@@ -7,5 +7,7 @@ namespace Colonel.Stock.Services
     {
         Task<Stock> GetStockByProductId(int productId);
         Task<List<Stock>> GetAllStock();
+        void InitializeData();
+
     }
 }

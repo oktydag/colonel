@@ -23,5 +23,24 @@ namespace Colonel.Stock.Services
 
         public async Task<Stock> GetStockByProductId(int productId) =>
            await _stock.Find<Stock>(x => x.ProductId == productId).FirstOrDefaultAsync();
+
+        public void InitializeData()
+        {
+            var stockList = new List<Stock>()
+            {
+                new Stock()
+                {
+                    ProductId = 321312333,
+                    Value = 20,
+                },
+                new Stock()
+                {
+                    ProductId = 15822066,
+                    Value = 10,
+                }
+            };
+
+            _stock.InsertMany(stockList);
+        }
     }
 }

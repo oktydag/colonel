@@ -46,7 +46,7 @@ namespace Colonel.Price
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IPriceRepository priceRepository)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +57,8 @@ namespace Colonel.Price
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Price Service");
             });
+
+            Task.Factory.StartNew(() => priceRepository.InitializeData());
 
             app.UseMvc();
 

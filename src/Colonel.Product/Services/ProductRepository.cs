@@ -28,5 +28,28 @@ namespace Colonel.Product.Services
             return product;
         }
 
+        public void InitializeData()
+        {
+            var productList = new List<Product>()
+            {
+                new Product()
+                {
+                    ProductId = 321312333,
+                    OnSale = false,
+                    ModelId = 213,
+                    Name = "Pantalon"
+                },
+               new Product()
+                {
+                    ProductId = 15822066,
+                    OnSale = true,
+                    ModelId = 10,
+                    Name = "Cicek"
+                }
+            };
+
+            _product.InsertMany(productList);
+        }
+
     }
 }

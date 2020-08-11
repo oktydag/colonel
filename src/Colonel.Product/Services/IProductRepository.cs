@@ -7,5 +7,7 @@ namespace Colonel.Product.Services
     {
         Task<Product> GetProductById(int productId);
         Task<List<Product>> GetAllProducts();
+
+        void InitializeData();
     }
 }

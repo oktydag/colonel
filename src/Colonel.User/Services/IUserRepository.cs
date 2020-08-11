@@ -7,5 +7,6 @@ namespace Colonel.User.Services
     {
         Task<User> GetUserById(int UserId);
         Task<List<User>> GetAllUsers();
+        void InitializeData();
     }
 }
