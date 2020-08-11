@@ -1,4 +1,5 @@
 ﻿using Colonel.Price.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,33 @@ namespace Colonel.Price.Services
             x.ProductId == priceRequestModel.ProductId &&
             x.ReleaseDate <= priceRequestModel.RequestDate &&
             x.ExpireDate > priceRequestModel.RequestDate).FirstOrDefaultAsync();
+        }
+
+        public void InitializeData()
+        {
+            var priceList = new List<Price>()
+            {
+                new Price()
+                {
+                    ProductId = 321312333,
+                    Value = 12.99m,
+                    CampaignId = 122,
+                    IsActive = true,
+                    ReleaseDate = new DateTime(2020,02,26),
+                    ExpireDate =new DateTime(2020,12,26)
+                },
+                new Price()
+                {
+                    ProductId = 15822066,
+                    Value = 212.99m,
+                    CampaignId = 32,
+                    IsActive = false,
+                    ReleaseDate = new DateTime(2020,02,26),
+                    ExpireDate =new DateTime(2020,12,26)
+                }
+            };
+
+            _price.InsertMany(priceList);
         }
     }
 }

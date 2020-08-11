@@ -9,5 +9,7 @@ namespace Colonel.Price.Services
         Task<Price> GetPriceByProductId(PriceRequestModel productId);
         Task<List<Price>> GetAllPrices();
 
+        void InitializeData();
+
     }
 }
