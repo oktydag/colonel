@@ -13,7 +13,8 @@ WORKDIR /app
  
 COPY --from=build /app/out .
 
+ENV ASPNETCORE_URLS=http://+:5003
+
 EXPOSE 5003
 
-ENTRYPOINT ["dotnet","Colonel.Product.dll"]
-
+ENTRYPOINT ["dotnet","Colonel.Product.dll", "--port", "5003"]

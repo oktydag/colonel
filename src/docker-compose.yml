@@ -29,7 +29,7 @@ services:
         depends_on:
             - "mongo"
         ports:
-            - "5001:80"
+            - "5001:5001"
         links: 
             - mongo
             

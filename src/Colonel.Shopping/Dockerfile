@@ -13,6 +13,9 @@ WORKDIR /app
  
 COPY --from=build /app/out .
 
+ENV ASPNETCORE_URLS=http://+:5004
+
 EXPOSE 5004
 
-ENTRYPOINT ["dotnet","Colonel.Shopping.dll"]
+ENTRYPOINT ["dotnet","Colonel.Shopping.dll", "--port", "5004"]
+
