@@ -13,6 +13,7 @@ WORKDIR /app
  
 COPY --from=build /app/out .
 
+EXPOSE 5001
+
 ENTRYPOINT ["dotnet","Colonel.Price.dll"]
 
-EXPOSE 5001

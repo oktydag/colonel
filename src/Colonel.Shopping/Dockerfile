@@ -13,6 +13,6 @@ WORKDIR /app
  
 COPY --from=build /app/out .
 
-ENTRYPOINT ["dotnet","Colonel.Shopping.dll"]
-
 EXPOSE 5004
+
+ENTRYPOINT ["dotnet","Colonel.Shopping.dll"]
