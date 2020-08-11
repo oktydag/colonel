@@ -5,7 +5,7 @@ services:
         image: mongo:4.1
         container_name: colonel
         ports:
-            - "10500:27017"
+            - "27017:27017"
     
     user:
         build:
@@ -21,7 +21,7 @@ services:
         depends_on:
             - "mongo"
         ports:
-            - "5003:80"            
+            - "5003:80"      
 
     price:
         build:
@@ -30,6 +30,8 @@ services:
             - "mongo"
         ports:
             - "5001:80"
+        links: 
+            - mongo
             
     stock:
         build:
@@ -50,4 +52,6 @@ services:
             - "stock"
         ports:
             - "5004:80"
-        
+        links: 
+            - mongo
+            - price
