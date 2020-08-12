@@ -25,16 +25,15 @@ namespace Colonel.Price.Tests
                 IsActive = true
             };
 
+            var priceRequestModel = new PriceRequestModel() { ProductId = 5, RequestDate = DateTime.UtcNow };
+
             var priceRepositoryMock = new Mock<IPriceRepository>();
-            priceRepositoryMock.Setup(p => p.GetPriceByProductId(new PriceRequestModel() { ProductId = 5, RequestDate = DateTime.UtcNow})).Returns(Task.FromResult(price));
+            priceRepositoryMock.Setup(p => p.GetPriceByProductId(priceRequestModel)).Returns(Task.FromResult(price));
 
             var priceController = new PriceController(priceRepositoryMock.Object);
-            var priceRequestModel = new PriceRequestModel() { ProductId = 5, RequestDate = new DateTime(2020, 5, 5) };
 
             var actionResult = await priceController.GetProductPrice(priceRequestModel);
             actionResult.Should().BeOfType<OkObjectResult>();
-
-            //TODO : mock returns null ?
         }
 
 
