@@ -21,7 +21,6 @@ git clone https://github.com/oktydag/colonel.git
 # Steps For Run the application
 ## 1.  Docker Compose Build
 
-Create a virtualenv and activate it.
 
 ```
 $ cd src
